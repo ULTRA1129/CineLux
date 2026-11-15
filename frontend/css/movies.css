@@ -132,6 +132,15 @@
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 0.9rem;
   margin-top: 1.8rem;
+  margin-bottom: 2.6rem !important;
+}
+
+#showtimes-section {
+  margin-top: 2.6rem !important;
+}
+
+#showtimes-section .empty-state {
+  margin-top: 2.6rem !important;
 }
 
 .fact-card {

@@ -59,11 +59,11 @@ function movieHTML(movie) {
           ${movie.releaseDate ? `<span class="meta-chip">${icons.calendar({ size: 13 })} ${formatDate(`${movie.releaseDate}T00:00:00`)}</span>` : ""}
         </div>
         <p class="movie-details__synopsis" data-reveal data-reveal-delay="140">${escapeHtml(movie.description || "Synopsis coming soon.")}</p>
-        <dl class="movie-details__facts" data-reveal data-reveal-delay="200">
+        <dl class="movie-details__facts" data-reveal data-reveal-delay="200" style="margin-bottom:2.6rem">
           ${facts.map(([label, value]) => `
             <div class="fact-card"><dt>${label}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}
         </dl>
-        <div id="showtimes-section"></div>
+        <div id="showtimes-section" style="margin-top:2.6rem"></div>
       </div>
     </div>`;
 }
@@ -116,15 +116,19 @@ async function loadShowtimes(movie) {
     const upcoming = data.filter((st) => new Date(st.startsAt).getTime() > Date.now());
 
     if (!upcoming.length) {
-      host.innerHTML = emptyStateHTML({
-        icon: "calendar",
-        title: "No upcoming showtimes yet",
-        message: movie.status === "now_showing"
-          ? "This film is listed as now showing, but no future screenings are scheduled yet. Check back soon."
-          : "This film has not been scheduled yet — it is still listed as coming soon.",
-        actionLabel: "Browse other movies",
-        actionHref: `${PAGES.movies}?status=now_showing`,
-      });
+      host.style.marginTop = "2.6rem";
+      host.innerHTML = `
+        <div style="margin-top:2.6rem">
+          ${emptyStateHTML({
+            icon: "calendar",
+            title: "No upcoming showtimes yet",
+            message: movie.status === "now_showing"
+              ? "This film is listed as now showing, but no future screenings are scheduled yet. Check back soon."
+              : "This film has not been scheduled yet — it is still listed as coming soon.",
+            actionLabel: "Browse other movies",
+            actionHref: `${PAGES.movies}?status=now_showing`,
+          })}
+        </div>`;
       return;
     }
 

@@ -63,13 +63,17 @@ async function decorateReel() {
   if (!reel) return;
   try {
     const { data } = await listMovies({ status: "now_showing", page: 1, limit: 3 });
+    if (!data || !data.length) return;
     const frames = reel.querySelectorAll(".auth-brand__frame");
     data.slice(0, 3).forEach((movie, i) => {
       if (!frames[i] || !movie.posterUrl) return;
-      const img = document.createElement("img");
+      let img = frames[i].querySelector("img");
+      if (!img) {
+        img = document.createElement("img");
+        frames[i].append(img);
+      }
       img.src = movie.posterUrl;
-      img.alt = "";
-      frames[i].append(img);
+      img.alt = movie.title || "";
     });
   } catch { /* decorative only */ }
 }
