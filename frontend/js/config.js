@@ -8,9 +8,10 @@
 export const API_BASE_URL =
   window.location.protocol === "file:"
     ? "http://localhost:4000"
-    : window.location.port === "4000"
-      ? ""
-      : `${window.location.protocol}//${window.location.hostname || "localhost"}:4000`;
+    : ["localhost", "127.0.0.1"].includes(window.location.hostname) &&
+        window.location.port !== "4000"
+      ? `${window.location.protocol}//${window.location.hostname}:4000`
+      : "";
 
 export const APP_NAME = "CineLux";
 export const SITE_NAME = "CineLux";
